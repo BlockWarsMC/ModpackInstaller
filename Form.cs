@@ -44,14 +44,14 @@ namespace BlockWars_Fabric_Installer
 
         private void button2_Click(object sender, EventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
+            using (var fileBrowserDialog = new FolderBrowserDialog())
             {
-                DialogResult result = fbd.ShowDialog();
+                DialogResult result = fileBrowserDialog.ShowDialog();
 
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fileBrowserDialog.SelectedPath))
                 {
-                    Info.vars.minecraftDirectory = fbd.SelectedPath;
-                    textBox1.Text = fbd.SelectedPath;
+                    Info.vars.minecraftDirectory = fileBrowserDialog.SelectedPath;
+                    textBox1.Text = fileBrowserDialog.SelectedPath;
                 }
             }
         }
