@@ -7,7 +7,8 @@ namespace BlockWars_Fabric_Installer
     {
         public static string profileFile = $"{Info.vars.minecraftDirectory}\\launcher_profiles.json";
         public static string optionsFile = $"{Info.vars.minecraftDirectory}\\options.txt";
-        public static string serverDat = $"{Info.vars.minecraftDirectory}\\servers.dat";
+        public static string serversDat = $"{Info.vars.minecraftDirectory}\\servers.dat";
+        public static string hotbarNBT = $"{Info.vars.minecraftDirectory}\\hotbar.nbt";
 
         public static void createNewProfile()
         {
@@ -32,7 +33,12 @@ namespace BlockWars_Fabric_Installer
             if (File.Exists(optionsFile))
             {
                 File.Delete($"{Info.blockwarsDirectory}\\options.txt");
+                File.Delete($"{Info.blockwarsDirectory}\\servers.dat");
+                File.Delete($"{Info.blockwarsDirectory}\\hotbar.nbt");
+
                 File.Copy(optionsFile, $"{Info.blockwarsDirectory}\\options.txt");
+                File.Copy(serversDat, $"{Info.blockwarsDirectory}\\servers.dat");
+                File.Copy(hotbarNBT, $"{Info.blockwarsDirectory}\\hotbar.nbt");
             }
         }
 
