@@ -34,6 +34,7 @@
             this.mcPathInputBoxLabel = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.progressText = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -96,12 +97,25 @@
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             // 
+            // progressText
+            // 
+            this.progressText.AutoSize = true;
+            this.progressText.BackColor = System.Drawing.Color.Black;
+            this.progressText.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.progressText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.progressText.Location = new System.Drawing.Point(13, 260);
+            this.progressText.Name = "progressText";
+            this.progressText.Size = new System.Drawing.Size(127, 21);
+            this.progressText.TabIndex = 6;
+            this.progressText.Text = "Installing Fabric...";
+            // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlText;
             this.ClientSize = new System.Drawing.Size(576, 336);
+            this.Controls.Add(this.progressText);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.mcPathInputBoxLabel);
@@ -125,5 +139,6 @@
         private Label mcPathInputBoxLabel;
         private Button button2;
         private PictureBox pictureBox1;
+        private Label progressText;
     }
 }

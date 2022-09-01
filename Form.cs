@@ -13,6 +13,8 @@ namespace BlockWars_Fabric_Installer
             BackColor = System.Drawing.Color.FromArgb(23, 23, 23);
             Text = "BlockWars Modpack Installer";
             textBox1.ReadOnly = true;
+            progressText.Text = string.Empty;
+            progressText.BackColor = System.Drawing.Color.FromArgb(23, 23, 23);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -29,9 +31,13 @@ namespace BlockWars_Fabric_Installer
                 return;
             }
 
+            progressText.Text = "Installing Fabric... (1/3)";
             FabricInstaller.InstallFabric();
+            progressText.Text = "Installing Mods... (2/3)";
             ModInstaller.InstallMods();
+            progressText.Text = "Creating new launcher profile... (3/3)";
             LauncherProfileCreator.createNewProfile();
+            progressText.Text = "Done! You can now close the program!";
             System.Windows.Forms.MessageBox.Show("BlockWars modpack has been installed!\nYou can now open the Minecraft launcher!");
             System.Environment.Exit(0x00);
         }
