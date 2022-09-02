@@ -30,15 +30,21 @@ namespace BlockWars_Fabric_Installer
             profiles.Add("blockwars", newProfile);
             json.profiles = profiles;
             File.WriteAllBytes(profileFile, JsonSerializer.SerializeToUtf8Bytes(json));
+            if(File.Exists(serversDat))
+            {
+                File.Delete($"{Info.blockwarsDirectory}\\servers.dat");
+                File.Copy(serversDat, $"{Info.blockwarsDirectory}\\servers.dat");
+
+            }
+            if(File.Exists(hotbarNBT))
+            {
+                File.Delete($"{Info.blockwarsDirectory}\\hotbar.nbt");
+                File.Copy(hotbarNBT, $"{Info.blockwarsDirectory}\\hotbar.nbt");
+            }
             if (File.Exists(optionsFile))
             {
                 File.Delete($"{Info.blockwarsDirectory}\\options.txt");
-                File.Delete($"{Info.blockwarsDirectory}\\servers.dat");
-                File.Delete($"{Info.blockwarsDirectory}\\hotbar.nbt");
-
                 File.Copy(optionsFile, $"{Info.blockwarsDirectory}\\options.txt");
-                File.Copy(serversDat, $"{Info.blockwarsDirectory}\\servers.dat");
-                File.Copy(hotbarNBT, $"{Info.blockwarsDirectory}\\hotbar.nbt");
             }
         }
 
