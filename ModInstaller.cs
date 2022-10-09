@@ -12,7 +12,14 @@ namespace BlockWars_Fabric_Installer
                 Directory.CreateDirectory(Info.blockwarsDirectory);
             }
 
-            if (!Directory.Exists(modsFolder))
+            if (Directory.Exists(modsFolder))
+            {   foreach (FileInfo file in new DirectoryInfo(modsFolder).GetFiles())
+                {
+                    file.Delete();
+                }
+                Directory.Delete(modsFolder);
+                Directory.CreateDirectory(modsFolder);
+            } else
             {
                 Directory.CreateDirectory(modsFolder);
             }
