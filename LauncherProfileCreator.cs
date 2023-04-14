@@ -5,61 +5,54 @@ namespace BlockWars_Fabric_Installer
 {
     public static class LauncherProfileCreator
     {
-        public static string profileFile = $"{Info.vars.minecraftDirectory}\\launcher_profiles.json";
-        public static string optionsFile = $"{Info.vars.minecraftDirectory}\\options.txt";
-        public static string serversDat = $"{Info.vars.minecraftDirectory}\\servers.dat";
-        public static string hotbarNBT = $"{Info.vars.minecraftDirectory}\\hotbar.nbt";
+        private static readonly string ProfileFile = $"{Info.Vars.minecraftDirectory}\\launcher_profiles.json";
+        private static readonly string OptionsFile = $"{Info.Vars.minecraftDirectory}\\options.txt";
+        private static readonly string ServersDat = $"{Info.Vars.minecraftDirectory}\\servers.dat";
+        private static readonly string HotbarNbt = $"{Info.Vars.minecraftDirectory}\\hotbar.nbt";
 
-        public static void createNewProfile()
+        public static void CreateNewProfile()
         {
-            string prof = File.ReadAllText(profileFile);
+            var prof = File.ReadAllText(ProfileFile);
             var json = JsonSerializer.Deserialize<LauncherProfiles>(prof)!;
-            Dictionary<string, Profile> profiles = json.profiles;
-            Profile newProfile = new Profile();
-            newProfile.created = DateTime.Now;
-            newProfile.gameDir = Info.blockwarsDirectory;
-            newProfile.icon = Info.profileImageBase64;
-            newProfile.lastUsed = DateTime.Now;
-            newProfile.lastVersionId = FabricInstaller.loaderName;
-            newProfile.name = "BlockWars Modpack";
-            newProfile.type = "custom";
-            if (profiles.ContainsKey("blockwars"))
+            var profiles = json.profiles;
+            var newProfile = new Profile
             {
-                profiles.Remove("blockwars");
-            }
+                gameDir = Info.BlockwarsDirectory,
+                icon = Info.ProfileImageBase64,
+                lastVersionId = FabricInstaller.LoaderName,
+                name = "BlockWars Modpack",
+                type = "custom"
+            };
+            
+            if (profiles.ContainsKey("blockwars")) profiles.Remove("blockwars");
+            
             profiles.Add("blockwars", newProfile);
             json.profiles = profiles;
-            File.WriteAllBytes(profileFile, JsonSerializer.SerializeToUtf8Bytes(json));
-            if(File.Exists(serversDat))
+            File.WriteAllBytes(ProfileFile, JsonSerializer.SerializeToUtf8Bytes(json));
+            if(File.Exists(ServersDat))
             {
-                File.Delete($"{Info.blockwarsDirectory}\\servers.dat");
-                File.Copy(serversDat, $"{Info.blockwarsDirectory}\\servers.dat");
+                File.Delete($"{Info.BlockwarsDirectory}\\servers.dat");
+                File.Copy(ServersDat, $"{Info.BlockwarsDirectory}\\servers.dat");
 
             }
-            if(File.Exists(hotbarNBT))
+            if(File.Exists(HotbarNbt))
             {
-                File.Delete($"{Info.blockwarsDirectory}\\hotbar.nbt");
-                File.Copy(hotbarNBT, $"{Info.blockwarsDirectory}\\hotbar.nbt");
+                File.Delete($"{Info.BlockwarsDirectory}\\hotbar.nbt");
+                File.Copy(HotbarNbt, $"{Info.BlockwarsDirectory}\\hotbar.nbt");
             }
-            if (File.Exists(optionsFile))
+            if (File.Exists(OptionsFile))
             {
-                File.Delete($"{Info.blockwarsDirectory}\\options.txt");
-                File.Copy(optionsFile, $"{Info.blockwarsDirectory}\\options.txt");
+                File.Delete($"{Info.BlockwarsDirectory}\\options.txt");
+                File.Copy(OptionsFile, $"{Info.BlockwarsDirectory}\\options.txt");
             }
         }
 
-        public static bool isLauncherRunning()
+        public static bool IsLauncherRunning()
         {
-            bool isRunning = false;
-            Process[] processes = Process.GetProcessesByName("MinecraftLauncher");
-            if (processes.Length == 0)
-            {
-                isRunning = false;
-
-            } else
-            {
-                isRunning = true;
-            }
+            bool isRunning;
+            var launcherProcessOld = Process.GetProcessesByName("MinecraftLauncher");
+            var launcherProcessNew = Process.GetProcessesByName("Minecraft");
+            if (launcherProcessNew.Length == 0 && launcherProcessOld.Length == 0) isRunning = false; else isRunning = true;
             return isRunning;
         }
     }

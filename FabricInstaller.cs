@@ -2,21 +2,21 @@
 {
     public static class FabricInstaller
     {
-        public static string loaderName = $"fabric-loader-{Info.fabricVersion}-{Info.gameVersion}";
-        public static string versionPath = $"{Info.vars.minecraftDirectory}\\versions\\{loaderName}";
+        public const string LoaderName = $"fabric-loader-{Info.FabricVersion}-{Info.GameVersion}";
+        private static readonly string VersionPath = $"{Info.Vars.minecraftDirectory}\\versions\\{LoaderName}";
         
         public static void InstallFabric()
         {
-            if (Directory.Exists(versionPath))
+            if (Directory.Exists(VersionPath))
             {
                 return;
             }
-            Directory.CreateDirectory(versionPath);
-            File.Create($"{versionPath}\\{loaderName}.jar");
+            Directory.CreateDirectory(VersionPath);
+            File.Create($"{VersionPath}\\{LoaderName}.jar");
 
-            var data = new ModDownloader().getString(
-                $"https://meta.fabricmc.net/v2/versions/loader/{Info.gameVersion}/{Info.fabricVersion}/profile/json");
-            File.WriteAllText($"{versionPath}\\{loaderName}.json", data);
+            var data = ModDownloader.GetString(
+                $"https://meta.fabricmc.net/v2/versions/loader/{Info.GameVersion}/{Info.FabricVersion}/profile/json");
+            File.WriteAllText($"{VersionPath}\\{LoaderName}.json", data);
         }
     }
 }

@@ -1,40 +1,37 @@
-﻿
-namespace BlockWars_Fabric_Installer
+﻿namespace BlockWars_Fabric_Installer;
+
+public abstract class ModInstaller
 {
-    public class ModInstaller
+    private static readonly string ModsFolder = $"{Info.BlockwarsDirectory}\\mods";
+
+    public static void InstallMods()
     {
-        private readonly static string modsFolder = $"{Info.blockwarsDirectory}\\mods";
-
-        public static void InstallMods()
+        if (!Directory.Exists(Info.BlockwarsDirectory))
         {
-            if (!Directory.Exists(Info.blockwarsDirectory))
-            {
-                Directory.CreateDirectory(Info.blockwarsDirectory);
-            }
+            Directory.CreateDirectory(Info.BlockwarsDirectory);
+        }
 
-            if (Directory.Exists(modsFolder))
-            {   foreach (FileInfo file in new DirectoryInfo(modsFolder).GetFiles())
-                {
-                    file.Delete();
-                }
-                Directory.Delete(modsFolder);
-                Directory.CreateDirectory(modsFolder);
-            } else
+        if (Directory.Exists(ModsFolder))
+        {   foreach (var file in new DirectoryInfo(ModsFolder).GetFiles())
             {
-                Directory.CreateDirectory(modsFolder);
+                file.Delete();
             }
+            Directory.Delete(ModsFolder);
+            Directory.CreateDirectory(ModsFolder);
+        } else
+        {
+            Directory.CreateDirectory(ModsFolder);
+        }
 
-            ModDownloader downloader = new ModDownloader();
-            string[] modList = downloader.getModList();
+        var downloader = new ModDownloader();
+        var modList = downloader.GetModList();
 
-            for (var i = 0; i < modList.Length; i++)
-            {
-                string[] v = modList[i].Split(",");
-                string name = v[1].Trim();
-                string url = v[0];
-                byte[] modjar = downloader.downloadMod(url);
-                File.WriteAllBytes($"{modsFolder}\\{name}.jar", modjar);
-            }
+        foreach (var mod in modList)
+        {
+            var name = mod.name;
+            var url = mod.url;
+            var modjar = ModDownloader.DownloadMod(url);
+            File.WriteAllBytes($"{ModsFolder}\\{name}.jar", modjar);
         }
     }
 }

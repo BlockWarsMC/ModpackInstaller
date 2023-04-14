@@ -5,29 +5,29 @@ namespace BlockWars_Fabric_Installer
         public Form()
         {
             InitializeComponent();
-            prepareComponent();
+            PrepareComponent();
         }
 
-        private void prepareComponent()
+        private void PrepareComponent()
         {
-            BackColor = System.Drawing.Color.FromArgb(23, 23, 23);
+            BackColor = Color.FromArgb(23, 23, 23);
             Text = "BlockWars Modpack Installer";
             textBox1.ReadOnly = true;
             progressText.Text = string.Empty;
-            progressText.BackColor = System.Drawing.Color.FromArgb(23, 23, 23);
+            progressText.BackColor = Color.FromArgb(23, 23, 23);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(Info.vars.minecraftDirectory == null)
+            if(Info.Vars.minecraftDirectory == null)
             {
-                System.Windows.Forms.MessageBox.Show("Please select your minecraft directory before installing!");
+                MessageBox.Show("Please select your minecraft directory before installing!");
                 return;
             }
 
-            if (LauncherProfileCreator.isLauncherRunning())
+            if (LauncherProfileCreator.IsLauncherRunning())
             {
-                System.Windows.Forms.MessageBox.Show("Please close the minecraft launcher before\ninstalling the blockwars modpack!");
+                MessageBox.Show("Please close the minecraft launcher/minecraft before\ninstalling the blockwars modpack!");
                 return;
             }
 
@@ -36,23 +36,21 @@ namespace BlockWars_Fabric_Installer
             progressText.Text = "Installing Mods... (2/3)";
             ModInstaller.InstallMods();
             progressText.Text = "Creating new launcher profile... (3/3)";
-            LauncherProfileCreator.createNewProfile();
+            LauncherProfileCreator.CreateNewProfile();
             progressText.Text = "Done! You can now close the program!";
-            System.Windows.Forms.MessageBox.Show("BlockWars modpack has been installed!\nYou can now open the Minecraft launcher!");
-            System.Environment.Exit(0x00);
+            MessageBox.Show("BlockWars modpack has been installed!\nYou can now open the Minecraft launcher!");
+            Environment.Exit(0x00);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            using (var fileBrowserDialog = new FolderBrowserDialog())
-            {
-                DialogResult result = fileBrowserDialog.ShowDialog();
+            using var fileBrowserDialog = new FolderBrowserDialog();
+            var result = fileBrowserDialog.ShowDialog();
 
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fileBrowserDialog.SelectedPath))
-                {
-                    Info.vars.minecraftDirectory = fileBrowserDialog.SelectedPath;
-                    textBox1.Text = fileBrowserDialog.SelectedPath;
-                }
+            if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fileBrowserDialog.SelectedPath))
+            {
+                Info.Vars.minecraftDirectory = fileBrowserDialog.SelectedPath;
+                textBox1.Text = fileBrowserDialog.SelectedPath;
             }
         }
     }
